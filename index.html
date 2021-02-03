@@ -1,0 +1,824 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>extra-iterable</title>
+	<meta name="description" content="Documentation for extra-iterable">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">extra-iterable</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>extra-iterable</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p>An <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iterable</a> is a sequence of values.<br>
+					:package: <a href="https://www.npmjs.com/package/extra-iterable">NPM</a>,
+					:smiley_cat: <a href="https://github.com/orgs/nodef/packages?repo_name=extra-iterable">GitHub</a>,
+					:running: <a href="https://npm.runkit.com/extra-iterable">RunKit</a>,
+					:vhs: <a href="https://asciinema.org/a/339719">Asciinema</a>,
+					:moon: <a href="https://www.npmjs.com/package/extra-iterable.min">Minified</a>,
+					:scroll: <a href="https://unpkg.com/extra-iterable/">Files</a>,
+					:newspaper: <a href="https://nodef.github.io/extra-iterable/">JSDoc</a>,
+				:blue_book: <a href="https://github.com/nodef/extra-iterable/wiki/">Wiki</a>.</p>
+				<p>Assumption here is that an iterable can only be iterated over once. Methods
+					which require multiple iterations preserve old values in a backup array using
+					<a href="https://github.com/nodef/extra-iterable/wiki/many">many</a>. Many methods accept both compare and map functions, and in some cases
+					using <strong>only</strong> a map function enables <em>faster comparision</em> (like <a href="https://github.com/nodef/extra-iterable/wiki/unique">unique</a>).
+					I borrowed a lot of ideas from Haskell, Elm, Python, Basic, Lodash, and other
+				NPM packages. These are mentioned in references of each method.</p>
+				<p>Methods as separate packages:</p>
+				<ul>
+					<li><code>@extra-iterable/swap</code>: use <a href="https://www.npmjs.com/package/rollup">rollup</a> to bundle this es module.</li>
+					<li><code>@extra-iterable/swap.min</code>: use in browser (<a href="https://www.npmjs.com/package/browserify">browserify</a>, <a href="https://www.npmjs.com/package/uglify-js">uglify-js</a>).</li>
+				</ul>
+				<blockquote>
+					<p>Stability: Experimental.</p>
+				</blockquote>
+				<br>
+				<pre><code class="language-javascript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">iterable</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;extra-iterable&quot;</span><span style="color: #000000">);</span>
+<span style="color: #008000">// import * as iterable from &quot;extra-iterable&quot;;</span>
+<span style="color: #008000">// import * as iterable from &quot;https://unpkg.com/extra-iterable@2.5.10/index.mjs&quot;; (deno)</span>
+
+<span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">x</span><span style="color: #000000"> = [</span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #098658">4</span><span style="color: #000000">, </span><span style="color: #098658">6</span><span style="color: #000000">, </span><span style="color: #098658">8</span><span style="color: #000000">];</span>
+<span style="color: #001080">iterable</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000">, </span><span style="color: #098658">1</span><span style="color: #000000">);</span>
+<span style="color: #008000">// 4</span>
+
+<span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">x</span><span style="color: #000000"> = [</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #098658">3</span><span style="color: #000000">, </span><span style="color: #098658">4</span><span style="color: #000000">];</span>
+<span style="color: #000000">[...</span><span style="color: #001080">iterable</span><span style="color: #000000">.</span><span style="color: #795E26">swap</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">1</span><span style="color: #000000">)];</span>
+<span style="color: #008000">// [ 2, 1, 3, 4 ]</span>
+
+<span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">x</span><span style="color: #000000"> = [</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #098658">3</span><span style="color: #000000">];</span>
+<span style="color: #000000">[...</span><span style="color: #001080">iterable</span><span style="color: #000000">.</span><span style="color: #795E26">cycle</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">4</span><span style="color: #000000">)];</span>
+<span style="color: #008000">// [1, 2, 3, 1]</span>
+
+<span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">x</span><span style="color: #000000"> = [</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #098658">3</span><span style="color: #000000">, </span><span style="color: #098658">4</span><span style="color: #000000">];</span>
+<span style="color: #001080">iterable</span><span style="color: #000000">.</span><span style="color: #795E26">reduce</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000">, (</span><span style="color: #001080">acc</span><span style="color: #000000">, </span><span style="color: #001080">v</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">acc</span><span style="color: #000000">+</span><span style="color: #001080">v</span><span style="color: #000000">);</span>
+<span style="color: #008000">// 10</span>
+</code></pre>
+				<br>
+				<br>
+				<a href="#index" id="index" style="color: inherit; text-decoration: none;">
+					<h2>Index</h2>
+				</a>
+				<table>
+					<thead>
+						<tr>
+							<th>Method</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/is">is</a></td>
+							<td>Checks if value is iterable.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/get">get</a></td>
+							<td>Gets value at index.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/set">set</a></td>
+							<td>Sets value at index.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/swap">swap</a></td>
+							<td>Exchanges two values.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/index">index</a></td>
+							<td>Gets zero-based index.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/indexRange">indexRange</a></td>
+							<td>Gets index range of part of iterable.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/isEmpty">isEmpty</a></td>
+							<td>Checks is iterable is empty.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/size">size</a></td>
+							<td>Counts the number of values.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/entries">entries</a></td>
+							<td>Lists all index-value pairs.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/iterator">iterator</a></td>
+							<td>Gives iterator for iterable.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/many">many</a></td>
+							<td>Converts a once iterable to many.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/from">from</a></td>
+							<td>Converts iterator to iterable.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/take">take</a></td>
+							<td>Keeps first n values only.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/drop">drop</a></td>
+							<td>Discards first n values only.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/head">head</a></td>
+							<td>Gets first value.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/left">left</a></td>
+							<td>Gets values from left.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/concat">concat</a></td>
+							<td>Appends values from iterables.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/push">push</a></td>
+							<td>Adds values to the end.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/copy">copy</a></td>
+							<td>Copies part of iterable to another.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/fill">fill</a></td>
+							<td>Fills with given value.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/slice">slice</a></td>
+							<td>Gets part of an iterable.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/splice">splice</a></td>
+							<td>Removes or replaces existing values.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/chunk">chunk</a></td>
+							<td>Breaks iterable into chunks of given size.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/cycle">cycle</a></td>
+							<td>Gives values that cycle through an iterable.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/repeat">repeat</a></td>
+							<td>Repeats an iterable given times.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/reverse">reverse</a></td>
+							<td>Reverses the values.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/rotate">rotate</a></td>
+							<td>Rotates values in iterable.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/interleave">interleave</a></td>
+							<td>Merges values from iterables.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/merge">merge</a></td>
+							<td>Merges values from sorted iterables.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/flat">flat</a></td>
+							<td>Flattens nested iterable to given depth.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/min">min</a></td>
+							<td>Finds smallest entry.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/max">max</a></td>
+							<td>Finds largest entry.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/range">range</a></td>
+							<td>Finds smallest and largest entries.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/count">count</a></td>
+							<td>Counts values which satisfy a test.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/partition">partition</a></td>
+							<td>Segregates values by test result.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/cut">cut</a></td>
+							<td>Breaks iterable when test passes.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/split">split</a></td>
+							<td>Breaks iterable considering test as separator.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/group">group</a></td>
+							<td>Keeps similar values together and in order.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/join">join</a></td>
+							<td>Joins values together.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/map">map</a></td>
+							<td>Updates values based on map function.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/filter">filter</a></td>
+							<td>Keeps the values which pass a test.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/reduce">reduce</a></td>
+							<td>Reduces values to a single value.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/accumulate">accumulate</a></td>
+							<td>Produces accumulating values.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/cartesianProduct">cartesianProduct</a></td>
+							<td>Lists cartesian product of iterables.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/zip">zip</a></td>
+							<td>Combines values from iterables.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/unique">unique</a></td>
+							<td>Removes duplicate values.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/union">union</a></td>
+							<td>Gives values present in any iterable.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/intersection">intersection</a></td>
+							<td>Gives values present in both iterables.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/difference">difference</a></td>
+							<td>Gives values not present in another iterable.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/symmetricDifference">symmetricDifference</a></td>
+							<td>Gives values not present in both iterables.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/isUnique">isUnique</a></td>
+							<td>Checks if there are no duplicate values.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/isDisjoint">isDisjoint</a></td>
+							<td>Checks if iterables have no value in common.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/hasValue">hasValue</a></td>
+							<td>Checks if iterable has a value.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/hasPrefix">hasPrefix</a></td>
+							<td>Checks if iterable starts with a prefix.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/hasSuffix">hasSuffix</a></td>
+							<td>Checks if iterable ends with a suffix.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/hasInfix">hasInfix</a></td>
+							<td>Checks if iterable contains an infix.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/hasSubsequence">hasSubsequence</a></td>
+							<td>Checks if iterable has a subsequence.</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/isEqual">isEqual</a></td>
+							<td>Checks if two iterables are equal.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/compare">compare</a></td>
+							<td>Compares two iterables.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/search">search</a></td>
+							<td>Finds index of first value passing a test.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/scanWhile">scanWhile</a></td>
+							<td>Scans from left, while a test passes.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/find">find</a></td>
+							<td>Finds first value passing a test.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/forEach">forEach</a></td>
+							<td>Calls a function for each value.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/some">some</a></td>
+							<td>Checks if any value satisfies a test.</td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/nodef/extra-iterable/wiki/every">every</a></td>
+							<td>Checks if all values satisfy a test.</td>
+						</tr>
+				</tbody></table>
+				<br>
+				<br>
+				<p><a href="https://www.youtube.com/watch?v=qgxPbqDskyw"><img src="https://img.youtube.com/vi/qgxPbqDskyw/maxresdefault.jpg" alt=""></a></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#end" class="tsd-kind-icon">END</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#accumulate" class="tsd-kind-icon">accumulate</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#callable" class="tsd-kind-icon">callable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#cartesianproduct" class="tsd-kind-icon">cartesian<wbr>Product</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#chunk" class="tsd-kind-icon">chunk</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#compare" class="tsd-kind-icon">compare</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#concat" class="tsd-kind-icon">concat</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#copy" class="tsd-kind-icon">copy</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#copywithin" class="tsd-kind-icon">copy<wbr>Within</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#count" class="tsd-kind-icon">count</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#countas" class="tsd-kind-icon">count<wbr>As</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#cut" class="tsd-kind-icon">cut</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#cutat" class="tsd-kind-icon">cut<wbr>At</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#cutatright" class="tsd-kind-icon">cut<wbr>AtRight</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#cutright" class="tsd-kind-icon">cut<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#cycle" class="tsd-kind-icon">cycle</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#difference" class="tsd-kind-icon">difference</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#drop" class="tsd-kind-icon">drop</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#dropright" class="tsd-kind-icon">drop<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#dropwhile" class="tsd-kind-icon">drop<wbr>While</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#dropwhileright" class="tsd-kind-icon">drop<wbr>While<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#entries" class="tsd-kind-icon">entries</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#every" class="tsd-kind-icon">every</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#fill" class="tsd-kind-icon">fill</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#filterat" class="tsd-kind-icon">filter<wbr>At</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#find" class="tsd-kind-icon">find</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#findall" class="tsd-kind-icon">find<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#findright" class="tsd-kind-icon">find<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#flat" class="tsd-kind-icon">flat</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#flatmap" class="tsd-kind-icon">flat<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#foreach" class="tsd-kind-icon">for<wbr>Each</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#from" class="tsd-kind-icon">from</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#fromapply" class="tsd-kind-icon">from<wbr>Apply</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#fromcall" class="tsd-kind-icon">from<wbr>Call</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#fromrange" class="tsd-kind-icon">from<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#get" class="tsd-kind-icon">get</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#getall" class="tsd-kind-icon">get<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#getpath" class="tsd-kind-icon">get<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#group" class="tsd-kind-icon">group</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#hasinfix" class="tsd-kind-icon">has<wbr>Infix</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#haspath" class="tsd-kind-icon">has<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#hasprefix" class="tsd-kind-icon">has<wbr>Prefix</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#hassubsequence" class="tsd-kind-icon">has<wbr>Subsequence</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#hassuffix" class="tsd-kind-icon">has<wbr>Suffix</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#hasvalue" class="tsd-kind-icon">has<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#head" class="tsd-kind-icon">head</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#includes" class="tsd-kind-icon">includes</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#index" class="tsd-kind-icon">index</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#indexof" class="tsd-kind-icon">index<wbr>Of</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#indexrange" class="tsd-kind-icon">index<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#init" class="tsd-kind-icon">init</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#interleave" class="tsd-kind-icon">interleave</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#intermix" class="tsd-kind-icon">intermix</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#interpolate" class="tsd-kind-icon">interpolate</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#intersection" class="tsd-kind-icon">intersection</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#intersperse" class="tsd-kind-icon">intersperse</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#is" class="tsd-kind-icon">is</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#isdisjoint" class="tsd-kind-icon">is<wbr>Disjoint</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#isempty" class="tsd-kind-icon">is<wbr>Empty</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#isequal" class="tsd-kind-icon">is<wbr>Equal</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#isiterator" class="tsd-kind-icon">is<wbr>Iterator</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#islist" class="tsd-kind-icon">is<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#ismany" class="tsd-kind-icon">is<wbr>Many</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#isonce" class="tsd-kind-icon">is<wbr>Once</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#isunique" class="tsd-kind-icon">is<wbr>Unique</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#iterator" class="tsd-kind-icon">iterator</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#join" class="tsd-kind-icon">join</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#keys" class="tsd-kind-icon">keys</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#last" class="tsd-kind-icon">last</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#lastindexof" class="tsd-kind-icon">last<wbr>Index<wbr>Of</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#left" class="tsd-kind-icon">left</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#length" class="tsd-kind-icon">length</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#many" class="tsd-kind-icon">many</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#map" class="tsd-kind-icon">map</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#max" class="tsd-kind-icon">max</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#merge" class="tsd-kind-icon">merge</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#middle" class="tsd-kind-icon">middle</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#min" class="tsd-kind-icon">min</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#movewithin" class="tsd-kind-icon">move<wbr>Within</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#partition" class="tsd-kind-icon">partition</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#partitionas" class="tsd-kind-icon">partition<wbr>As</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#pop" class="tsd-kind-icon">pop</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#push" class="tsd-kind-icon">push</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#range" class="tsd-kind-icon">range</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#reduce" class="tsd-kind-icon">reduce</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#reject" class="tsd-kind-icon">reject</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#rejectat" class="tsd-kind-icon">reject<wbr>At</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#remove" class="tsd-kind-icon">remove</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#repeat" class="tsd-kind-icon">repeat</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#reverse" class="tsd-kind-icon">reverse</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#right" class="tsd-kind-icon">right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#rotate" class="tsd-kind-icon">rotate</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#scanuntil" class="tsd-kind-icon">scan<wbr>Until</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#scanuntilright" class="tsd-kind-icon">scan<wbr>Until<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#scanwhile" class="tsd-kind-icon">scan<wbr>While</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#scanwhileright" class="tsd-kind-icon">scan<wbr>While<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#search" class="tsd-kind-icon">search</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#searchall" class="tsd-kind-icon">search<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#searchinfix" class="tsd-kind-icon">search<wbr>Infix</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#searchinfixall" class="tsd-kind-icon">search<wbr>Infix<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#searchinfixright" class="tsd-kind-icon">search<wbr>Infix<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#searchright" class="tsd-kind-icon">search<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#searchsubsequence" class="tsd-kind-icon">search<wbr>Subsequence</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#searchvalue" class="tsd-kind-icon">search<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#searchvalueall" class="tsd-kind-icon">search<wbr>Value<wbr>All</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#searchvalueright" class="tsd-kind-icon">search<wbr>Value<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#set" class="tsd-kind-icon">set</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#shift" class="tsd-kind-icon">shift</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#size" class="tsd-kind-icon">size</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#slice" class="tsd-kind-icon">slice</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#some" class="tsd-kind-icon">some</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#splice" class="tsd-kind-icon">splice</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#split" class="tsd-kind-icon">split</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#splitat" class="tsd-kind-icon">split<wbr>At</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#swap" class="tsd-kind-icon">swap</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#symmetricdifference" class="tsd-kind-icon">symmetric<wbr>Difference</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#tail" class="tsd-kind-icon">tail</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#take" class="tsd-kind-icon">take</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#takeright" class="tsd-kind-icon">take<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#takewhile" class="tsd-kind-icon">take<wbr>While</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#takewhileright" class="tsd-kind-icon">take<wbr>While<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#union" class="tsd-kind-icon">union</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#unique" class="tsd-kind-icon">unique</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#unshift" class="tsd-kind-icon">unshift</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#values" class="tsd-kind-icon">values</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#zip" class="tsd-kind-icon">zip</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
